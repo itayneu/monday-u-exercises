@@ -1,0 +1,85 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.background {
+  min-height: 100vh;
+  background: cadetblue;
+}
+
+.content {
+  background: white;
+  padding: 15px;
+  border-radius: 3px;
+  min-height: 500px;
+  width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 4px #000000;
+}
+
+.todo {
+  width: 85%;
+  padding: 12px 20px;
+  margin: 8px 0;
+}
+
+.addButton {
+  cursor: pointer;
+  background-color: cornflowerblue;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  margin: 8px 6px;
+  font-size: 24px;
+  border-radius: 2px;
+  position: absolute;
+  right: 10px;
+}
+
+.middle {
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  cursor: pointer;
+  position: relative;
+  padding: 12px 8px 12px 40px;
+  background: #eee;
+  font-size: 18px;
+  transition: 0.2s;
+  border-radius: 2px;
+}
+
+p:hover {
+  background: #ddd;
+}
+
+.pending {
+  position: absolute;
+  left: 10px;
+  bottom: 16px;
+  margin: 8px 6px;
+}
+
+.clearButton {
+  cursor: pointer;
+  background-color: cornflowerblue;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  margin: 8px 6px;
+  font-size: 16px;
+  border-radius: 2px;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}

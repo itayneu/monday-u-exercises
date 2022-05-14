@@ -1,14 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <title>Exercise 1</title>
     <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-
-<h1>Todo list</h1>
-
-
-</body>
-<script src="script.js"></script>
+  </head>
+  <body>
+    <div class="background">
+      <div class="content">
+        <h1>Todo list</h1>
+        <main>
+          <section class="top">
+            <input type="text" class="todo" placeholder="Add your new todo" />
+            <button class="addButton" onclick="addTodoTask()">+</button>
+          </section>
+          <section class="middle"></section>
+          <section class="bottom">
+            <div class="pending">
+              You have <span class="tasks">0</span> pending tasks
+            </div>
+            <button class="clearButton" onclick="clearAllTasks()">
+              Clear All
+            </button>
+          </section>
+        </main>
+      </div>
+    </div>
+  </body>
+  <script src="script.js"></script>
 </html>
