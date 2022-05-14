@@ -1,43 +1,52 @@
-let todoCounter = 0;
-let todoTasksValues = [];
+let pendingTodos = [];
 
-function addTodoTask() {
-  const p = document.createElement("p");
-  const todo = document.querySelector(".todo").value;
+function addTodo() {
+  let currentTodo = document.querySelector(".todoInput").value;
 
-  if (!todoTasksValues.includes(todo)) {
-    todoTasksValues.push(todo);
-    p.appendChild(document.createTextNode(todo));
-    document.querySelector(".middle").appendChild(p);
-
-    // update todo tasks counter
-    todoCounter++;
-    document.querySelector(".tasks").textContent = todoCounter;
+  if (currentTodo === "") {
+    alert("Add a value to create a new todo");
+  } else if (pendingTodos.includes(currentTodo)) {
+    alert(`The task "${currentTodo}" is already in the list`);
   } else {
-    alert("This task is already in the list");
+    let todoDiv = document.createElement("div");
+    todoDiv.className = "todo";
+    todoDiv.appendChild(document.createTextNode(currentTodo));
+    document.querySelector(".todos").appendChild(todoDiv);
+
+    let deleteSpan = document.createElement("span");
+    deleteSpan.className = "delete";
+    deleteSpan.appendChild(document.createTextNode("\u00D7"));
+    todoDiv.appendChild(deleteSpan);
+
+    // add todo to current todos array
+    pendingTodos.push(currentTodo);
+    document.querySelector(".counter").textContent = pendingTodos.length;
+
+    // alert todo value on div click
+    todoDiv.addEventListener("click", ({ target }) => {
+      if (target.tagName === "DIV") {
+        alert(currentTodo);
+      }
+    });
+
+    // delete todo on span click
+    deleteSpan.addEventListener("click", () => {
+      todoDiv.remove();
+
+      // remove todo from current todos array
+      pendingTodos.pop(currentTodo);
+      document.querySelector(".counter").textContent = pendingTodos.length;
+    });
   }
 
   // reset current todo input
-  document.querySelector(".todo").value = "";
+  document.querySelector(".todoInput").value = "";
 }
 
-let todoTasks = document.querySelector(".middle");
-todoTasks.addEventListener(
-  "click",
-  ({ target }) => {
-    alert(target.textContent);
-  },
-  false
-);
+function clearAllTodos() {
+  document.querySelector(".todos").innerHTML = "";
 
-function clearAllTasks() {
-  document.querySelector(".middle").innerHTML = "";
-
-  // reset todo tasks counter
-  todoCounter = 0;
-  document.querySelector(".tasks").textContent = todoCounter;
-}
-
-function changeBackground(target, color) {
-  target.style.background = color;
+  // empty todos array
+  pendingTodos = [];
+  document.querySelector(".counter").textContent = pendingTodos.length;
 }
