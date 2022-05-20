@@ -1,3 +1,5 @@
+const listItems = new ItemManager([]);
+
 let pendingTodos = [];
 
 function addTodo() {
@@ -5,7 +7,7 @@ function addTodo() {
 
   if (currentTodo === "") {
     alert("Add a value to create a new todo");
-  } else if (pendingTodos.includes(currentTodo)) {
+  } else if (listItems.todos.includes(currentTodo)) {
     alert(`The task "${currentTodo}" is already in the list`);
   } else {
     let todoListItem = document.createElement("li");
@@ -20,8 +22,8 @@ function addTodo() {
     todoListItem.appendChild(deleteSpan);
 
     // add todo to current todos array
-    pendingTodos.push(currentTodo);
-    document.querySelector("#counter").textContent = pendingTodos.length;
+    listItems.addTodo(currentTodo);
+    document.querySelector("#counter").textContent = listItems.todos.length;
 
     // alert todo value on li click
     todoListItem.addEventListener("click", ({ target }) => {
@@ -35,8 +37,8 @@ function addTodo() {
       todoListItem.remove();
 
       // remove todo from current todos array
-      pendingTodos.pop(currentTodo);
-      document.querySelector("#counter").textContent = pendingTodos.length;
+      listItems.removeTodo(currentTodo);
+      document.querySelector("#counter").textContent = listItems.todos.length;
     });
   }
 
@@ -49,5 +51,8 @@ function clearAllTodos() {
 
   // empty todos array
   pendingTodos = [];
-  document.querySelector("#counter").textContent = pendingTodos.length;
+  listItems.todos.forEach((listItem) => {
+    listItems.removeTodo(listItem);
+  });
+  document.querySelector("#counter").textContent = listItems.todos.length;
 }
