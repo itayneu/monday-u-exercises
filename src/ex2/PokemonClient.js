@@ -17,12 +17,27 @@ class PokemonClient {
 
   async getAllPokemons(pokemonsIds) {
     const allPromises = [];
+    let pokemons = [];
     try {
       pokemonsIds.forEach((pokemonId) => {
         allPromises.push(fetch(`${this.API_BASE}/pokemon/${pokemonId}`));
       });
-      const allPokemons = await Promise.all(allPromises);
-      return allPokemons;
+
+      await Promise.all(allPromises).then((responses) => {
+        responses.some((response) => {
+          if (!response.ok) {
+            const errorMessage = `Failed to fetch pokemon with this input ${pokemonsIds}`;
+            console.log(errorMessage);
+            pokemons = errorMessage;
+            return pokemons;
+          }
+          const result = response.json();
+          result.then((pokemon) => {
+            pokemons.push(pokemon.name);
+          });
+        });
+      });
+      return pokemons;
     } catch (error) {
       const errorMessage = `Failed to fetch pokemon with this input ${pokemonsIds}`;
       console.log(errorMessage);

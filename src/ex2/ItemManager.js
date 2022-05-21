@@ -16,4 +16,8 @@ class ItemManager {
   removeTodo(todo) {
     this.todos = this.todos.filter((e) => e !== todo);
   }
+
+  removeAllTodos() {
+    this.todos = [];
+  }
 }

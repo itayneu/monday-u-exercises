@@ -1,4 +1,3 @@
-// Implement the `Main` class here
 class Main {
   constructor() {}
 
@@ -8,26 +7,32 @@ class Main {
       let input = domManager.getElement("list-item-input").value;
 
       // number
-      if (!isNaN(input)) {
+      if (/^[0-9]+$/.test(input)) {
         pokemonClient.getPokemon(input).then((pokemon) => {
-          let item =
-            pokemon.startsWith("Failed") === "string"
-              ? pokemon
-              : `catch ${pokemon}`;
+          let item = pokemon.endsWith("was not found")
+            ? pokemon // error handling
+            : `catch ${pokemon}`; // real pokemon
           this.addAndRenderItem(item);
         });
       }
       // comma separated list of IDs
-      else if (/^[0-9, ]*$/.test(input)) {
+      else if (/^[0-9, ]+$/.test(input)) {
         pokemonClient
           .getAllPokemons(input.split(",").map((e) => e.trim()))
-          .then((responses) => {
-            responses.forEach((response) => {
-              const result = response.json();
-              result.then((pokemon) => {
-                this.addAndRenderItem(`catch ${pokemon.name}`);
-              });
-            });
+          .then((pokemons) => {
+            // error handling
+            if (typeof pokemons === "string") {
+              this.addAndRenderItem(pokemons);
+            }
+            // real pokemons
+            else {
+              setTimeout(() => {
+                pokemons.forEach((pokemon) => {
+                  if (pokemon !== undefined)
+                    this.addAndRenderItem(`catch ${pokemon}`);
+                });
+              }, 50);
+            }
           });
       }
       // normal todo
@@ -41,17 +46,14 @@ class Main {
 
     const clearAllButton = domManager.getElement("list-item-clear");
     clearAllButton.addEventListener("click", () => {
-      // empty todos array
-      itemManager.todos.forEach((todo) => {
-        itemManager.removeTodo(todo);
-      });
-
+      itemManager.removeAllTodos();
       domManager.render(itemManager.todos);
     });
   }
 
   addAndRenderItem(input) {
     itemManager.addTodo(input);
+    console.log(itemManager.todos);
     domManager.render(itemManager.todos);
   }
 }
@@ -62,7 +64,5 @@ const domManager = new DomManager();
 const pokemonClient = new PokemonClient();
 
 document.addEventListener("DOMContentLoaded", function () {
-  // you should create an `init` method in your class
-  // the method should add the event listener to your "add" button
   main.init();
 });
