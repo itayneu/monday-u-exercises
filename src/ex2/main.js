@@ -53,7 +53,6 @@ class Main {
 
   addAndRenderItem(input) {
     itemManager.addTodo(input);
-    console.log(itemManager.todos);
     domManager.render(itemManager.todos);
   }
 }
