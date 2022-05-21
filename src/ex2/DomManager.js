@@ -1,6 +1,4 @@
 class DomManager {
-  constructor() {}
-
   render(todos) {
     const ul = document.querySelector("#list");
     ul.innerHTML = "";

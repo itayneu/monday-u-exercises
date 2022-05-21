@@ -5,11 +5,35 @@ class Main {
   init() {
     const submitButton = domManager.getElement("list-item-submit");
     submitButton.addEventListener("click", () => {
-      let currentTodo = domManager.getElement("list-item-input").value;
+      let input = domManager.getElement("list-item-input").value;
 
-      // add todo to current todos array and render
-      itemManager.addTodo(currentTodo);
-      domManager.render(itemManager.todos);
+      // number
+      if (!isNaN(input)) {
+        pokemonClient.getPokemon(input).then((pokemon) => {
+          let item =
+            pokemon.startsWith("Failed") === "string"
+              ? pokemon
+              : `catch ${pokemon}`;
+          this.addAndRenderItem(item);
+        });
+      }
+      // comma separated list of IDs
+      else if (/^[0-9, ]*$/.test(input)) {
+        pokemonClient
+          .getAllPokemons(input.split(",").map((e) => e.trim()))
+          .then((responses) => {
+            responses.forEach((response) => {
+              const result = response.json();
+              result.then((pokemon) => {
+                this.addAndRenderItem(`catch ${pokemon.name}`);
+              });
+            });
+          });
+      }
+      // normal todo
+      else {
+        this.addAndRenderItem(input);
+      }
 
       // reset current todo input
       domManager.getElement("list-item-input").value = "";
@@ -25,11 +49,17 @@ class Main {
       domManager.render(itemManager.todos);
     });
   }
+
+  addAndRenderItem(input) {
+    itemManager.addTodo(input);
+    domManager.render(itemManager.todos);
+  }
 }
 
 const main = new Main();
-const itemManager = new ItemManager([]);
+const itemManager = new ItemManager();
 const domManager = new DomManager();
+const pokemonClient = new PokemonClient();
 
 document.addEventListener("DOMContentLoaded", function () {
   // you should create an `init` method in your class

@@ -3,10 +3,6 @@ class ItemManager {
     this.todos = [];
   }
 
-  get allTodos() {
-    return this.todos;
-  }
-
   addTodo(todo) {
     if (todo === "") {
       alert("Add a value to create a new todo");
