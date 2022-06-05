@@ -1,4 +1,6 @@
-class PokemonClient {
+import fetch from "node-fetch";
+
+export default class PokemonClient {
   constructor() {
     this.API_BASE = "https://pokeapi.co/api/v2";
   }
@@ -6,18 +8,18 @@ class PokemonClient {
   async getPokemon(pokemonId) {
     try {
       const response = await fetch(`${this.API_BASE}/pokemon/${pokemonId}`);
-      const result = await response.json();
-      return result.name;
+      const pokemon = await response.json();
+
+      return pokemon.name;
     } catch (error) {
-      const errorMessage = `Pokemon with ID ${pokemonId} was not found`;
-      console.log(errorMessage);
-      return errorMessage;
+      throw `Pokemon with ID ${pokemonId} was not found`;
     }
   }
 
   async getAllPokemons(pokemonsIds) {
     const allPromises = [];
-    let pokemons = [];
+    let pokemonsNames = [];
+
     try {
       pokemonsIds.forEach((pokemonId) => {
         allPromises.push(fetch(`${this.API_BASE}/pokemon/${pokemonId}`));
@@ -25,23 +27,19 @@ class PokemonClient {
 
       await Promise.all(allPromises).then((responses) => {
         responses.some((response) => {
-          if (!response.ok) {
-            const errorMessage = `Failed to fetch pokemon with this input ${pokemonsIds}`;
-            console.log(errorMessage);
-            pokemons = errorMessage;
-            return pokemons;
-          }
+          if (!response.ok)
+            throw `Failed to fetch pokemon with this input ${pokemonsIds}`;
           const result = response.json();
+
           result.then((pokemon) => {
-            pokemons.push(pokemon.name);
+            pokemonsNames.push(pokemon.name);
           });
         });
       });
-      return pokemons;
+
+      return pokemonsNames;
     } catch (error) {
-      const errorMessage = `Failed to fetch pokemon with this input ${pokemonsIds}`;
-      console.log(errorMessage);
-      return errorMessage;
+      throw `Failed to fetch pokemon with this input ${pokemonsIds}`;
     }
   }
 }
