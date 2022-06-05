@@ -17,12 +17,7 @@ export default class ItemManager {
       if (/^[0-9]+$/.test(input)) {
         pokemonClient.getPokemon(input).then(
           (pokemon) => {
-            const pokemonString = `catch ${pokemon}`;
-            writer.write(pokemonString + "\n");
-            this.printWithColor(
-              `Todo "${pokemonString}" added successfully`,
-              options
-            );
+            this.handleTodo(`catch ${pokemon}`, options);
           },
           (error) => console.log(error)
         );
@@ -36,12 +31,7 @@ export default class ItemManager {
               setTimeout(() => {
                 pokemons.forEach((pokemon) => {
                   if (pokemon !== undefined) {
-                    const pokemonString = `catch ${pokemon}`;
-                    writer.write(pokemonString + "\n");
-                    this.printWithColor(
-                      `Todo "${pokemonString}" added successfully`,
-                      options
-                    );
+                    this.handleTodo(`catch ${pokemon}`, options);
                   }
                 });
               }, 50);
@@ -51,8 +41,7 @@ export default class ItemManager {
       }
       // normal todo
       else {
-        writer.write(input + "\n");
-        this.printWithColor(`Todo "${input}" added successfully`, options);
+        this.handleTodo(input, options);
       }
     }
   }
@@ -71,21 +60,30 @@ export default class ItemManager {
       if (error) throw error;
       else {
         let dataArray = data.split("\n").filter((e) => e !== "");
-        let todoIndex = /^[0-9]+$/.test(input)
+        const todoIndex = /^[0-9]+$/.test(input)
           ? input // numeric value (index)
           : dataArray.findIndex((elem) => elem === input); // text value
+
         if (todoIndex < 0 || todoIndex >= dataArray.length) {
           console.log(`Todo "${input}" does not exist`);
           return;
         }
+
         dataArray.splice(todoIndex, 1);
-        let dataAfterDelete = dataArray.join("\n");
+        dataArray[dataArray.length - 1] += "\n";
+        const dataAfterDelete = dataArray.join("\n");
+
         writeFile("todos.txt", dataAfterDelete, (error) => {
           if (error) throw error;
           this.printWithColor(`Todo "${input}" deleted successfully`, options);
         });
       }
     });
+  }
+
+  handleTodo(input, options) {
+    writer.write(`${input}\n`);
+    this.printWithColor(`Todo "${input}" added successfully`, options);
   }
 
   printWithColor(input, options) {
