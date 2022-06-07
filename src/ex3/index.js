@@ -16,7 +16,7 @@ program
   .argument("<string>", "todo")
   .option("-c, --color <string>", "Result color", "white")
   .action((todo, options) => {
-    itemManager.addTodo(todo, options);
+    itemManager.addTodo(todo.trim(), options);
   });
 
 program

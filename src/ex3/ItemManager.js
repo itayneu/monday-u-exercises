@@ -9,35 +9,34 @@ const pokemonClient = new PokemonClient();
 export default class ItemManager {
   constructor() {}
 
-  addTodo(input, options) {
+  async addTodo(input, options) {
     if (input === "") {
       console.log("Enter a value to add a new todo");
     } else {
       // number
       if (/^[0-9]+$/.test(input)) {
-        pokemonClient.getPokemon(input).then(
-          (pokemon) => {
-            this.handleTodo(`catch ${pokemon}`, options);
-          },
-          (error) => console.log(error)
-        );
+        try {
+          const pokemon = await pokemonClient.getPokemon(input);
+          this.handleTodo(`catch ${pokemon.name}`, options);
+        } catch (error) {
+          this.handleTodo(`Pokemon with ID ${input} was not found`, options);
+        }
       }
       // comma separated list of IDs
       else if (/^[0-9, ]+$/.test(input)) {
-        pokemonClient
-          .getAllPokemons(input.split(",").map((e) => e.trim()))
-          .then(
-            (pokemons) => {
-              setTimeout(() => {
-                pokemons.forEach((pokemon) => {
-                  if (pokemon !== undefined) {
-                    this.handleTodo(`catch ${pokemon}`, options);
-                  }
-                });
-              }, 50);
-            },
-            (error) => console.log(error)
+        try {
+          const pokemons = await pokemonClient.getAllPokemons(
+            input.split(",").map((e) => e.trim())
           );
+          pokemons.forEach((pokemon) => {
+            this.handleTodo(`catch ${pokemon.name}`, options);
+          });
+        } catch (error) {
+          this.handleTodo(
+            `Failed to fetch pokemon with this input ${input}`,
+            options
+          );
+        }
       }
       // normal todo
       else {

@@ -2,44 +2,36 @@ import fetch from "node-fetch";
 
 export default class PokemonClient {
   constructor() {
-    this.API_BASE = "https://pokeapi.co/api/v2";
+    this.API_BASE = "https://pokeapi.co/api/v2/pokemon";
   }
 
   async getPokemon(pokemonId) {
     try {
-      const response = await fetch(`${this.API_BASE}/pokemon/${pokemonId}`);
+      const response = await fetch(`${this.API_BASE}/${pokemonId}`);
       const pokemon = await response.json();
 
-      return pokemon.name;
+      return pokemon;
     } catch (error) {
-      throw `Pokemon with ID ${pokemonId} was not found`;
+      throw error;
     }
   }
 
   async getAllPokemons(pokemonsIds) {
     const allPromises = [];
-    let pokemonsNames = [];
 
     try {
       pokemonsIds.forEach((pokemonId) => {
-        allPromises.push(fetch(`${this.API_BASE}/pokemon/${pokemonId}`));
+        allPromises.push(fetch(`${this.API_BASE}/${pokemonId}`));
       });
 
-      await Promise.all(allPromises).then((responses) => {
-        responses.some((response) => {
-          if (!response.ok)
-            throw `Failed to fetch pokemon with this input ${pokemonsIds}`;
-          const result = response.json();
+      const responses = await Promise.all(allPromises);
+      const pokemons = await Promise.all(
+        responses.map((response) => response.json())
+      );
 
-          result.then((pokemon) => {
-            pokemonsNames.push(pokemon.name);
-          });
-        });
-      });
-
-      return pokemonsNames;
+      return pokemons;
     } catch (error) {
-      throw `Failed to fetch pokemon with this input ${pokemonsIds}`;
+      throw error;
     }
   }
 }
