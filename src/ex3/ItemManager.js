@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { createReadStream, createWriteStream, readFile, writeFile } from "fs";
+import { createReadStream, createWriteStream, writeFile } from "fs";
 import PokemonClient from "./PokemonClient.js";
 
 const writer = createWriteStream("todos.txt", { flags: "a" });
@@ -55,28 +55,28 @@ export default class ItemManager {
   }
 
   deleteTodo(input, options) {
-    readFile("todos.txt", "utf8", (error, data) => {
-      if (error) throw error;
-      else {
-        let dataArray = data.split("\n").filter((e) => e !== "");
-        const todoIndex = /^[0-9]+$/.test(input)
-          ? input // numeric value (index)
-          : dataArray.findIndex((elem) => elem === input); // text value
+    reader.on("data", (chunk) => {
+      let dataArray = chunk.split("\n").filter((e) => e !== "");
+      const todoIndex = /^[0-9]+$/.test(input)
+        ? input // numeric value (index)
+        : dataArray.findIndex((elem) => elem === input); // text value
 
-        if (todoIndex < 0 || todoIndex >= dataArray.length) {
-          console.log(`Todo "${input}" does not exist`);
-          return;
-        }
-
-        dataArray.splice(todoIndex, 1);
-        dataArray[dataArray.length - 1] += "\n";
-        const dataAfterDelete = dataArray.join("\n");
-
-        writeFile("todos.txt", dataAfterDelete, (error) => {
-          if (error) throw error;
-          this.printWithColor(`Todo "${input}" deleted successfully`, options);
-        });
+      if (todoIndex < 0 || todoIndex >= dataArray.length) {
+        console.log(`Todo "${input}" does not exist`);
+        return;
       }
+
+      dataArray.splice(todoIndex, 1);
+      dataArray[dataArray.length - 1] += "\n";
+      const dataAfterDelete = dataArray.join("\n");
+
+      writeFile("todos.txt", dataAfterDelete, (error) => {
+        if (error) throw error;
+        this.printWithColor(`Todo "${input}" deleted successfully`, options);
+      });
+    });
+    reader.on("error", (error) => {
+      throw error;
     });
   }
 
