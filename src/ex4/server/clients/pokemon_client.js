@@ -1,4 +1,3 @@
-// The Pokemon Client (using axios) goes here
 import axios from "axios";
 
 export default class PokemonClient {
@@ -9,9 +8,8 @@ export default class PokemonClient {
   async getPokemon(pokemonId) {
     try {
       const response = await axios.get(`${this.API_BASE}/${pokemonId}`);
-      const pokemon = await response.json();
 
-      return pokemon;
+      return response.data;
     } catch (error) {
       throw error;
     }
@@ -26,9 +24,7 @@ export default class PokemonClient {
       });
 
       const responses = await Promise.all(allPromises);
-      const pokemons = await Promise.all(
-        responses.map((response) => response.json())
-      );
+      const pokemons = responses.map((response) => response.data);
 
       return pokemons;
     } catch (error) {
