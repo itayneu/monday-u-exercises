@@ -1,22 +1,19 @@
 // Define your endpoints here (this is your "controller file")
-const express = require("express");
+const ItemManager = require("../services/item_manager");
 
-const api = express.Router();
+async function getTodos(req, res) {
+  let data = await ItemManager.getTodos();
+  if (!data) data = [];
 
-api.get("/", getAll);
-api.post("/", createTodo);
-api.delete("/:id", deleteTodo);
-
-async function getAll(req, res) {
-  // let data = await jediService.getAll();
-  // if (!data) data = [];
-  // res.status(200).json(data);
+  res.header("Access-Control-Allow-Origin", "*");
+  res.status(200).json(data);
 }
 
 async function createTodo(req, res) {
-  console.log("creating a new todo");
-  // await jediService.addJedi(req.body);
-  // res.status(200).json(req.body);
+  const data = await ItemManager.addTodo(req.body);
+
+  res.header("Access-Control-Allow-Origin", "*");
+  res.status(200).json(data);
 }
 
 async function deleteTodo(req, res) {
@@ -30,6 +27,14 @@ async function deleteTodo(req, res) {
       next(e);
     }
 
-  // const data = await jediService.deleteJedi(todoId);
-  // res.status(200).json(data);
+  const data = await ItemManager.deleteTodo(todoId);
+
+  res.header("Access-Control-Allow-Origin", "*");
+  res.status(200).json(data);
 }
+
+module.exports = {
+  createTodo,
+  deleteTodo,
+  getTodos,
+};

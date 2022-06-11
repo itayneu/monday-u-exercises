@@ -1,7 +1,7 @@
 {
-  "name": "shuki",
+  "name": "shuki-server",
   "version": "1.0.0",
-  "description": "shuki - todo app",
+  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,7 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",
-    "express": "^4.18.1"
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "express-async-errors": "^3.1.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"
