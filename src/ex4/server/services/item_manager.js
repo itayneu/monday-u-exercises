@@ -1,5 +1,6 @@
 const fs = require("fs").promises;
 const pokemon_client = require("../clients/pokemon_client");
+
 const pokemonClient = new pokemon_client();
 const todoFile = "todo_list.json";
 
@@ -22,6 +23,7 @@ async function addTodo(input) {
       const pokemons = await pokemonClient.getAllPokemons(
         inputString.split(",").map((e) => e.trim())
       );
+
       pokemons.forEach(async (pokemon) => {
         return await addPokemonItem(pokemon.name, dataArray);
       });
@@ -49,7 +51,7 @@ async function addItem(item, dataArray) {
 }
 
 async function addPokemonItem(item, dataArray) {
-  await addItem(`catch ${item}`, dataArray);
+  return await addItem(`catch ${item}`, dataArray);
 }
 
 async function getTodos() {

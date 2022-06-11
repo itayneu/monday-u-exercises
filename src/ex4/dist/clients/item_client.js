@@ -1,14 +1,10 @@
-class ItemClient {
-  constructor() {}
+const API_BASE = "http://localhost:3005/";
 
+class ItemClient {
   async getTodos() {
     try {
-      const response = await axios.get("http://localhost:3005/todo");
+      const response = await axios.get(`${API_BASE}/todo`);
       const todoItems = response.data;
-
-      console.log(`GET: Here's the list of todos`, todoItems, {
-        "Content-Type": "text/plain",
-      });
 
       return todoItems;
     } catch (error) {
@@ -18,12 +14,8 @@ class ItemClient {
 
   async addTodo(todo) {
     try {
-      const response = await axios.post("http://localhost:3005/todo", todo, {
-        "Content-Type": "text/plain",
-      });
+      const response = await axios.post(`${API_BASE}/todo`, todo);
       const newTodo = response.data;
-
-      console.log(`Added a new Todo!`, newTodo);
 
       return newTodo;
     } catch (errors) {
@@ -33,13 +25,7 @@ class ItemClient {
 
   async deleteTodo(todoId) {
     try {
-      const response = await axios.delete(
-        `http://localhost:3005/todo/${todoId}`,
-        {
-          "Content-Type": "text/plain",
-        }
-      );
-      console.log(`Deleted Todo ID: `, todoId);
+      const response = await axios.delete(`${API_BASE}/todo/${todoId}`);
 
       return response.data;
     } catch (errors) {

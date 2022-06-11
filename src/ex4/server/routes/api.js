@@ -1,4 +1,3 @@
-// Define your endpoints here (this is your "controller file")
 const ItemManager = require("../services/item_manager");
 
 async function getTodos(req, res) {
