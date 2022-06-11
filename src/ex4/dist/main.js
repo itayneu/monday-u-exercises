@@ -15,12 +15,15 @@ class Main {
     const todo = { value };
     this.itemClient.addTodo(todo);
     document.querySelector("#list-item-input").value = "";
+    await this.renderItems();
   };
 
   deleteItem = async (item) => {
     const todoList = await this.itemClient.getTodos();
-    const todoIndex = todoList.findIndex((value) => value.todo === item);
-    this.itemClient.deleteTodo(todoIndex);
+    const todo = todoList.find((todoListItem) => todoListItem.todo === item);
+    const todoId = todo.id;
+    this.itemClient.deleteTodo(todoId);
+    await this.renderItems();
   };
 
   renderItems = async () => {
