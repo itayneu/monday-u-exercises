@@ -5,39 +5,51 @@ const pokemonClient = new pokemon_client();
 const todoFile = "todo_list.json";
 
 async function addTodo(input) {
-  const inputString = input?.value;
+  const inputString = input?.value.trim();
   let dataArray = await getTodos();
   if (!dataArray) dataArray = [];
   // number
   if (/^[0-9]+$/.test(inputString)) {
-    try {
-      const pokemon = await pokemonClient.getPokemon(inputString);
-      return await addPokemonItem(pokemon.name, dataArray);
-    } catch (error) {
-      return addItem(`Pokemon with ID ${inputString} was not found`, dataArray);
-    }
+    handlePokemonItem(inputString, dataArray);
   }
   // comma separated list of IDs
   else if (/^[0-9, ]+$/.test(inputString)) {
-    try {
-      const pokemons = await pokemonClient.getAllPokemons(
-        inputString.split(",").map((e) => e.trim())
-      );
-
-      pokemons.forEach(async (pokemon) => {
-        return await addPokemonItem(pokemon.name, dataArray);
-      });
-    } catch (error) {
-      return addItem(
-        `Failed to fetch pokemon with this input ${inputString}`,
-        dataArray
-      );
-    }
+    handlePokemonItems(inputString, dataArray);
   }
   // normal todo
   else {
-    return addItem(inputString, dataArray);
+    handleNormalItem(inputString, dataArray);
   }
+}
+
+async function handlePokemonItem(inputString, dataArray) {
+  try {
+    const pokemon = await pokemonClient.getPokemon(inputString);
+    return await addPokemonItem(pokemon.name, dataArray);
+  } catch (error) {
+    return addItem(`Pokemon with ID ${inputString} was not found`, dataArray);
+  }
+}
+
+async function handlePokemonItems(inputString, dataArray) {
+  try {
+    const pokemons = await pokemonClient.getAllPokemons(
+      inputString.split(",").map((e) => e.trim())
+    );
+
+    pokemons.forEach(async (pokemon) => {
+      return await addPokemonItem(pokemon.name, dataArray);
+    });
+  } catch (error) {
+    return addItem(
+      `Failed to fetch pokemon with this input ${inputString}`,
+      dataArray
+    );
+  }
+}
+
+function handleNormalItem(inputString, dataArray) {
+  return addItem(inputString, dataArray);
 }
 
 async function addItem(item, dataArray) {

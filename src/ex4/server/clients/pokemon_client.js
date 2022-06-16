@@ -6,30 +6,20 @@ class PokemonClient {
   }
 
   async getPokemon(pokemonId) {
-    try {
-      const response = await axios.get(`${this.API_BASE}/${pokemonId}`);
+    const response = await axios.get(`${this.API_BASE}/${pokemonId}`);
 
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+    return response.data;
   }
 
   async getAllPokemons(pokemonsIds) {
-    const allPromises = [];
+    const allPromises = pokemonsIds.map((pokemonId) =>
+      axios.get(`${this.API_BASE}/${pokemonId}`)
+    );
 
-    try {
-      pokemonsIds.forEach((pokemonId) => {
-        allPromises.push(axios.get(`${this.API_BASE}/${pokemonId}`));
-      });
+    const responses = await Promise.all(allPromises);
+    const pokemons = responses.map((response) => response.data);
 
-      const responses = await Promise.all(allPromises);
-      const pokemons = responses.map((response) => response.data);
-
-      return pokemons;
-    } catch (error) {
-      throw error;
-    }
+    return pokemons;
   }
 }
 
