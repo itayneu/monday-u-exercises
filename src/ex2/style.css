@@ -115,3 +115,28 @@ body {
   background-color: #f0f0f5;
   transition: background-color 0.2s ease-in-out;
 }
+
+.list-clear {
+  padding: 0px 32px 10px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+}
+
+.list-clear #list-item-clear {
+  color: white;
+  background-color: #6c6cff;
+  border-style: solid;
+  border-color: transparent;
+  border-radius: 4px;
+  height: 35px;
+  width: 70px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: auto;
+}
