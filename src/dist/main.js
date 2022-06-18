@@ -12,30 +12,23 @@ class Main {
 
   handleItem = async () => {
     const value = document.querySelector("#list-item-input").value;
-    const todo = { value };
-    this.itemClient.addTodo(todo);
-    document.querySelector("#list-item-input").value = "";
 
-    setTimeout(async () => {
-      await this.renderItems();
-    }, 500);
+    await this.itemClient.addItem(value);
+    await this.renderItems();
+
+    document.querySelector("#list-item-input").value = "";
   };
 
   deleteItem = async (item) => {
-    const todoList = await this.itemClient.getTodos();
-    const todo = todoList.find((todoListItem) => todoListItem.todo === item);
-    const todoId = todo.id;
-    this.itemClient.deleteTodo(todoId);
-    setTimeout(async () => {
-      await this.renderItems();
-    }, 50);
+    await this.itemClient.deleteItem(item);
+    await this.renderItems();
   };
 
   renderItems = async () => {
     const list = document.getElementById("list");
     list.innerHTML = "";
 
-    const todoList = await this.itemClient.getTodos();
+    const todoList = await this.itemClient.getItems();
     const items = todoList.map((item) => {
       return item.todo;
     });

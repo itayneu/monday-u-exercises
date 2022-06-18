@@ -1,9 +1,9 @@
 const API_BASE = "http://localhost:3005";
 
 class ItemClient {
-  async getTodos() {
+  async getItems() {
     try {
-      const response = await axios.get(`${API_BASE}/todo`);
+      const response = await axios.get(`${API_BASE}/items`);
       const todoItems = response.data;
 
       return todoItems;
@@ -12,20 +12,32 @@ class ItemClient {
     }
   }
 
-  async addTodo(todo) {
+  async addItem(item) {
     try {
-      const response = await axios.post(`${API_BASE}/todo`, todo);
-      const newTodo = response.data;
+      const response = await axios.post(
+        `${API_BASE}/item`,
+        JSON.stringify({ item }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      return newTodo;
+      return response.data;
     } catch (errors) {
       console.error(errors);
     }
   }
 
-  async deleteTodo(todoId) {
+  async deleteItem(item) {
     try {
-      const response = await axios.delete(`${API_BASE}/todo/${todoId}`);
+      const response = await axios.delete(`${API_BASE}/item`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({ item }),
+      });
 
       return response.data;
     } catch (errors) {

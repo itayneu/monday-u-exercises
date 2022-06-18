@@ -20,7 +20,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/todo", todoRouter);
+app.use("/", todoRouter);
 
 app.get("/", (req, res) => {
   res.header("Access-Control-Allow-Origin", "true");

@@ -21,9 +21,9 @@ function validateSchema(schema) {
 }
 
 const todoSchema = {
-  value: {
+  item: {
     isLength: {
-      errorMessage: "Value should not be empty",
+      errorMessage: "Item should not be empty",
       options: { min: 1 },
     },
   },

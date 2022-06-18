@@ -1,11 +1,11 @@
 const express = require("express");
-const { createTodo, getTodos, deleteTodo } = require("./api");
+const { createItem, getItems, deleteItem } = require("./api");
 const { validateSchema, todoSchema } = require("../middleware/validation");
 
 const todoRouter = express.Router();
 
-todoRouter.get("/", getTodos);
-todoRouter.post("/", validateSchema(todoSchema), createTodo);
-todoRouter.delete("/:id", deleteTodo);
+todoRouter.get("/items", getItems);
+todoRouter.post("/item", validateSchema(todoSchema), createItem);
+todoRouter.delete("/item", validateSchema(todoSchema), deleteItem);
 
 module.exports = todoRouter;

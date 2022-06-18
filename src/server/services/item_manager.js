@@ -4,9 +4,10 @@ const pokemon_client = require("../clients/pokemon_client");
 const pokemonClient = new pokemon_client();
 const todoFile = "todo_list.json";
 
-async function addTodo(input) {
-  const inputString = input?.value.trim();
-  let dataArray = await getTodos();
+async function addTodoItem(input) {
+  const inputString = input.trim();
+  let dataArray = await getTodoItems();
+
   if (!dataArray) dataArray = [];
   // number
   if (/^[0-9]+$/.test(inputString)) {
@@ -66,17 +67,15 @@ async function addPokemonItem(item, dataArray) {
   return await addItem(`catch ${item}`, dataArray);
 }
 
-async function getTodos() {
+async function getTodoItems() {
   return await readTodoFile();
 }
 
-async function deleteTodo(input) {
-  const dataArray = await getTodos();
-  const todoIndex = dataArray.findIndex((elem) => elem.id === input);
-  const deletedTodo = dataArray[todoIndex];
-  dataArray.splice(todoIndex, 1);
+async function deleteTodoItem(input) {
+  let dataArray = await getTodoItems();
+  dataArray = dataArray.filter((i) => i.todo !== input);
+
   await writeTodoFile(dataArray);
-  return deletedTodo;
 }
 
 async function readTodoFile() {
@@ -97,7 +96,7 @@ async function writeTodoFile(content) {
 }
 
 module.exports = {
-  addTodo,
-  getTodos,
-  deleteTodo,
+  addTodoItem,
+  getTodoItems,
+  deleteTodoItem,
 };
