@@ -21,8 +21,16 @@ async function deleteItem(req, res) {
   res.status(200).json(data);
 }
 
+async function updateItem(req, res) {
+  const data = await ItemManager.updateTodoItem(req.body);
+
+  res.header("Access-Control-Allow-Origin", "*");
+  res.status(200).json(data);
+}
+
 module.exports = {
   createItem,
   deleteItem,
   getItems,
+  updateItem,
 };

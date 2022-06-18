@@ -24,26 +24,31 @@ class Main {
     await this.renderItems();
   };
 
+  updateItem = async (item) => {
+    item.status = !item.status;
+
+    await this.itemClient.updateItem(item);
+    await this.renderItems();
+  };
+
   renderItems = async () => {
     const list = document.getElementById("list");
     list.innerHTML = "";
 
-    const todoList = await this.itemClient.getItems();
-    const items = todoList.map((item) => {
-      return item.itemName;
-    });
+    const itemsList = await this.itemClient.getItems();
 
-    items.forEach((item) => {
+    itemsList.forEach((item) => {
+      const itemName = item.itemName;
       const listItem = document.createElement("li");
       listItem.classList.add("list-item");
 
       const listItemCheckbox = this._createCheckbox(item);
       listItem.appendChild(listItemCheckbox);
 
-      const listItemLabel = this._createLabel(item);
+      const listItemLabel = this._createLabel(itemName);
       listItem.appendChild(listItemLabel);
 
-      const listItemDeleteButton = this._createDeleteButton(item);
+      const listItemDeleteButton = this._createDeleteButton(itemName);
       listItem.appendChild(listItemDeleteButton);
       list.appendChild(listItem);
     });
@@ -52,8 +57,9 @@ class Main {
   _createCheckbox = (item) => {
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
+    checkbox.checked = item.status;
     checkbox.classList.add("list-item-checkbox");
-    // checkbox.addEventListener("click", (_) => this.deleteItem(item));
+    checkbox.addEventListener("click", (_) => this.updateItem(item));
 
     return checkbox;
   };

@@ -44,4 +44,22 @@ class ItemClient {
       console.error(errors);
     }
   }
+
+  async updateItem(item) {
+    try {
+      const response = await axios.put(
+        `${API_BASE}/item`,
+        JSON.stringify({ item: item.itemName, status: item.status }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      return response.data;
+    } catch (errors) {
+      console.error(errors);
+    }
+  }
 }

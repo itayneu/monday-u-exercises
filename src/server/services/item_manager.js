@@ -70,8 +70,21 @@ async function deleteTodoItem(input) {
   });
 }
 
+async function updateTodoItem(input) {
+  console.log("input", input);
+  await Items.update(
+    { status: input.status },
+    {
+      where: {
+        itemName: input.item,
+      },
+    }
+  );
+}
+
 module.exports = {
   addTodoItem,
   getTodoItems,
   deleteTodoItem,
+  updateTodoItem,
 };
