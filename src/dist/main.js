@@ -36,12 +36,34 @@ class Main {
     items.forEach((item) => {
       const listItem = document.createElement("li");
       listItem.classList.add("list-item");
-      listItem.innerHTML = item;
+
+      const listItemCheckbox = this._createCheckbox(item);
+      listItem.appendChild(listItemCheckbox);
+
+      const listItemLabel = this._createLabel(item);
+      listItem.appendChild(listItemLabel);
 
       const listItemDeleteButton = this._createDeleteButton(item);
       listItem.appendChild(listItemDeleteButton);
       list.appendChild(listItem);
     });
+  };
+
+  _createCheckbox = (item) => {
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.classList.add("list-item-checkbox");
+    // checkbox.addEventListener("click", (_) => this.deleteItem(item));
+
+    return checkbox;
+  };
+
+  _createLabel = (item) => {
+    const label = document.createElement("label");
+    label.classList.add("list-item-label");
+    label.innerText = item;
+
+    return label;
   };
 
   _createDeleteButton = (item) => {

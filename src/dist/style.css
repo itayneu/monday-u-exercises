@@ -104,6 +104,16 @@ body {
   border-bottom: 1px #bbb5b5 solid;
 }
 
+.list-item-label {
+  margin-left: 10px;
+}
+
+.list-item-checkbox {
+  height: 14px;
+  width: 14px;
+  cursor: pointer;
+}
+
 .list-item-delete-button {
   margin-left: auto;
   padding: 8px;
