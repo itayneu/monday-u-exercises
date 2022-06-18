@@ -45,7 +45,7 @@ class Main {
       const listItemCheckbox = this._createCheckbox(item);
       listItem.appendChild(listItemCheckbox);
 
-      const listItemLabel = this._createLabel(itemName);
+      const listItemLabel = this._createLabel(item);
       listItem.appendChild(listItemLabel);
 
       const listItemDeleteButton = this._createDeleteButton(itemName);
@@ -67,7 +67,13 @@ class Main {
   _createLabel = (item) => {
     const label = document.createElement("label");
     label.classList.add("list-item-label");
-    label.innerText = item;
+
+    label.innerText =
+      item.status === true
+        ? `${item.itemName} (Done: ${new Date(
+            item.updatedAt
+          ).toLocaleString()})`
+        : item.itemName;
 
     return label;
   };

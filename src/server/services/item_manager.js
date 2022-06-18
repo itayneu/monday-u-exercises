@@ -49,13 +49,11 @@ function handleNormalItem(inputString) {
 }
 
 async function addItem(item) {
-  console.log(item);
-
   return await Items.create({ itemName: item });
 }
 
 async function addPokemonItem(item) {
-  return await addItem(`catch ${item}`);
+  return await addItem(`Catch ${item}`);
 }
 
 function getTodoItems() {

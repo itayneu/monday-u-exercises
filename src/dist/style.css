@@ -114,6 +114,10 @@ body {
   cursor: pointer;
 }
 
+.list-item-checkbox:checked {
+  accent-color: #6c6cff;
+}
+
 .list-item-delete-button {
   margin-left: auto;
   padding: 8px;
