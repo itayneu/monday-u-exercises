@@ -1,98 +1,73 @@
 const fs = require("fs").promises;
 const pokemon_client = require("../clients/pokemon_client");
+const { Items } = require("../db/models");
 
 const pokemonClient = new pokemon_client();
-const todoFile = "todo_list.json";
 
 async function addTodoItem(input) {
   const inputString = input.trim();
-  let dataArray = await getTodoItems();
 
-  if (!dataArray) dataArray = [];
   // number
   if (/^[0-9]+$/.test(inputString)) {
-    handlePokemonItem(inputString, dataArray);
+    handlePokemonItem(inputString);
   }
   // comma separated list of IDs
   else if (/^[0-9, ]+$/.test(inputString)) {
-    handlePokemonItems(inputString, dataArray);
+    handlePokemonItems(inputString);
   }
   // normal todo
   else {
-    handleNormalItem(inputString, dataArray);
+    handleNormalItem(inputString);
   }
 }
 
-async function handlePokemonItem(inputString, dataArray) {
+async function handlePokemonItem(inputString) {
   try {
     const pokemon = await pokemonClient.getPokemon(inputString);
-    return await addPokemonItem(pokemon.name, dataArray);
+    return await addPokemonItem(pokemon.name);
   } catch (error) {
-    return addItem(`Pokemon with ID ${inputString} was not found`, dataArray);
+    return addItem(`Pokemon with ID ${inputString} was not found`);
   }
 }
 
-async function handlePokemonItems(inputString, dataArray) {
+async function handlePokemonItems(inputString) {
   try {
     const pokemons = await pokemonClient.getAllPokemons(
       inputString.split(",").map((e) => e.trim())
     );
 
     pokemons.forEach(async (pokemon) => {
-      return await addPokemonItem(pokemon.name, dataArray);
+      return await addPokemonItem(pokemon.name);
     });
   } catch (error) {
-    return addItem(
-      `Failed to fetch pokemon with this input ${inputString}`,
-      dataArray
-    );
+    return addItem(`Failed to fetch pokemon with this input ${inputString}`);
   }
 }
 
-function handleNormalItem(inputString, dataArray) {
-  return addItem(inputString, dataArray);
+function handleNormalItem(inputString) {
+  return addItem(inputString);
 }
 
-async function addItem(item, dataArray) {
-  const todoJson = {
-    id: Math.max(...dataArray.map((elem) => elem.id), 0) + 1,
-    todo: item,
-  };
-  dataArray.push(todoJson);
-  await writeTodoFile(dataArray);
-  return todoJson;
+async function addItem(item) {
+  console.log(item);
+
+  return await Items.create({ itemName: item });
 }
 
-async function addPokemonItem(item, dataArray) {
-  return await addItem(`catch ${item}`, dataArray);
+async function addPokemonItem(item) {
+  return await addItem(`catch ${item}`);
 }
 
-async function getTodoItems() {
-  return await readTodoFile();
+function getTodoItems() {
+  return Items.findAll();
 }
 
 async function deleteTodoItem(input) {
-  let dataArray = await getTodoItems();
-  dataArray = dataArray.filter((i) => i.todo !== input);
-
-  await writeTodoFile(dataArray);
-}
-
-async function readTodoFile() {
-  try {
-    const dataArray = await fs.readFile(todoFile);
-    return JSON.parse(dataArray.toString());
-  } catch (error) {
-    console.error(`Got an error trying to read the file: ${error.message}`);
-  }
-}
-
-async function writeTodoFile(content) {
-  try {
-    await fs.writeFile(todoFile, JSON.stringify(content));
-  } catch (error) {
-    console.error(`Failed to write to file ${error.message}`);
-  }
+  await Items.destroy({
+    where: {
+      itemName: input,
+    },
+  });
 }
 
 module.exports = {

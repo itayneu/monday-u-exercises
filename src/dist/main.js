@@ -30,7 +30,7 @@ class Main {
 
     const todoList = await this.itemClient.getItems();
     const items = todoList.map((item) => {
-      return item.todo;
+      return item.itemName;
     });
 
     items.forEach((item) => {

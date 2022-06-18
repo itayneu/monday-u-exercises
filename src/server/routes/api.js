@@ -1,8 +1,7 @@
 const ItemManager = require("../services/item_manager");
 
 async function getItems(req, res) {
-  let data = await ItemManager.getTodoItems();
-  if (!data) data = [];
+  const data = await ItemManager.getTodoItems();
 
   res.header("Access-Control-Allow-Origin", "*");
   res.status(200).json(data);
