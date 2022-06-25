@@ -1,4 +1,13 @@
-.list-item-submit {
+.list-controls {
+  padding: 0px 32px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+}
+
+.list-controls #list-item-submit {
   color: white;
   background-color: #6c6cff;
   border-style: solid;
@@ -14,7 +23,7 @@
   margin-left: auto;
 }
 
-.list-item-submit:hover {
+.list-controls #list-item-submit:hover {
   background-color: #3c3cff;
   transition: background-color 0.2s ease-in-out;
 }

@@ -1,7 +1,9 @@
+import axios from "axios";
+
 const API_BASE = "http://localhost:3005";
 
-class ItemClient {
-  async getItems() {
+export const useItem = () => {
+  async function getItems() {
     try {
       const response = await axios.get(`${API_BASE}/items`);
       const todoItems = response.data;
@@ -12,7 +14,7 @@ class ItemClient {
     }
   }
 
-  async addItem(item) {
+  async function addItem(item) {
     try {
       const response = await axios.post(
         `${API_BASE}/item`,
@@ -30,7 +32,7 @@ class ItemClient {
     }
   }
 
-  async deleteItem(item) {
+  async function deleteItem(item) {
     try {
       const response = await axios.delete(`${API_BASE}/item`, {
         headers: {
@@ -45,7 +47,7 @@ class ItemClient {
     }
   }
 
-  async updateItem(item) {
+  async function updateItem(item) {
     try {
       const response = await axios.put(
         `${API_BASE}/item`,
@@ -62,4 +64,6 @@ class ItemClient {
       console.error(errors);
     }
   }
-}
+
+  return { getItems, addItem, deleteItem, updateItem };
+};

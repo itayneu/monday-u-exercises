@@ -1,55 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
-// import "./input.css";
+import "./input.css";
 
-/**
- * Primary UI component for user interaction
- */
-export const Input = ({ primary, backgroundColor, size, label, ...props }) => {
-  const mode = primary
-    ? "storybook-button--primary"
-    : "storybook-button--secondary";
+export const Input = ({ placeholder, value, onChange }) => {
   return (
-    // <button
-    //   type="button"
-    //   className={["storybook-button", `storybook-button--${size}`, mode].join(
-    //     " "
-    //   )}
-    //   style={backgroundColor && { backgroundColor }}
-    //   {...props}
-    // >
-    //   {label}
-    // </button>
-    <input type="text" id="list-item-input" placeholder="Add your new todo" />
+    <input
+      type="text"
+      className="list-item-input"
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+    />
   );
 };
 
 Input.propTypes = {
-  /**
-   * Is this the principal call to action on the page?
-   */
-  primary: PropTypes.bool,
-  /**
-   * What background color to use
-   */
-  backgroundColor: PropTypes.string,
-  /**
-   * How large should the button be?
-   */
-  size: PropTypes.oneOf(["small", "medium", "large"]),
-  /**
-   * Button contents
-   */
-  label: PropTypes.string.isRequired,
-  /**
-   * Optional click handler
-   */
-  onClick: PropTypes.func,
-};
-
-Input.defaultProps = {
-  backgroundColor: null,
-  primary: false,
-  size: "medium",
-  onClick: undefined,
+  placeholder: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
 };

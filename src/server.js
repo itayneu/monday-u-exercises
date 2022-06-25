@@ -8,7 +8,6 @@ const app = express();
 
 app.use(logger);
 app.use(bodyParser.json());
-app.use("/static", express.static("public"));
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
