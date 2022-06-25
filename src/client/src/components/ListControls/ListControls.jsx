@@ -7,7 +7,7 @@ import "./listControls.css";
 
 export const ListControls = ({ renderItems }) => {
   const { addItem } = useItem();
-  const [inputValue, setInputValue] = useState();
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     renderItems();
