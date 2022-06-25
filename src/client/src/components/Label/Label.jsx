@@ -9,3 +9,7 @@ export const Label = ({ label }) => {
 Label.propTypes = {
   label: PropTypes.string,
 };
+
+Label.defaultProps = {
+  label: "",
+};

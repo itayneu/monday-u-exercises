@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { ListControls } from "./components/ListControls/ListControls";
 import { ListItem } from "./components/ListItem/ListItem";
 import { useItem } from "./hooks/useItem";
@@ -8,13 +8,9 @@ function App() {
   const { getItems } = useItem();
   const [itemsList, setItemsList] = useState([]);
 
-  useEffect(() => {
-    renderItems();
-  }, []);
-
-  const renderItems = async () => {
+  const renderItems = useCallback(async () => {
     setItemsList(await getItems());
-  };
+  }, []);
 
   return (
     <div className="app-container">

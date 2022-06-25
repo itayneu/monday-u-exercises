@@ -16,5 +16,6 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
+  label: "Send",
   onClick: undefined,
 };

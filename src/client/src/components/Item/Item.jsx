@@ -29,3 +29,9 @@ Item.propTypes = {
   handleItemDelete: PropTypes.func,
   HandleItemUpdate: PropTypes.func,
 };
+
+Item.defaultProps = {
+  item: {},
+  handleItemDelete: undefined,
+  HandleItemUpdate: undefined,
+};

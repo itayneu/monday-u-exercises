@@ -2,17 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./checkbox.css";
 
-export const Checkbox = ({ isChecked, onChange, value }) => {
-  const handleChange = () => {
-    onChange && onChange(value);
-  };
-
+export const Checkbox = ({ isChecked, onChange }) => {
   return (
     <input
       type="checkbox"
       className="list-item-checkbox"
       checked={isChecked}
-      onChange={handleChange}
+      onChange={onChange}
     ></input>
   );
 };
@@ -20,5 +16,9 @@ export const Checkbox = ({ isChecked, onChange, value }) => {
 Checkbox.propTypes = {
   isChecked: PropTypes.bool,
   onChange: PropTypes.func,
-  value: PropTypes.bool,
+};
+
+Checkbox.defaultProps = {
+  isChecked: false,
+  onChange: undefined,
 };

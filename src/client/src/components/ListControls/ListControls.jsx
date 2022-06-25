@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Input } from "../Input/Input";
 import { Button } from "../Button/Button";
@@ -8,6 +8,10 @@ import "./listControls.css";
 export const ListControls = ({ renderItems }) => {
   const { addItem } = useItem();
   const [inputValue, setInputValue] = useState();
+
+  useEffect(() => {
+    renderItems();
+  }, [inputValue, renderItems]);
 
   const handleItem = async () => {
     await addItem(inputValue);
@@ -30,4 +34,8 @@ export const ListControls = ({ renderItems }) => {
 
 ListControls.propTypes = {
   renderItems: PropTypes.func,
+};
+
+ListControls.defaultProps = {
+  renderItems: undefined,
 };
