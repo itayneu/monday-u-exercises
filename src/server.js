@@ -28,16 +28,6 @@ app.get("/", (req, res) => {
   });
 });
 
-app.post("/error", async (req, res, next) => {
-  try {
-    let error = Error("Error");
-    error.statusCode = 400;
-    throw error;
-  } catch (e) {
-    next(e);
-  }
-});
-
 app.listen(port, () => {
   console.log("Server started on port ", port);
 });

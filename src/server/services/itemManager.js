@@ -1,8 +1,7 @@
-const fs = require("fs").promises;
-const pokemon_client = require("../clients/pokemon_client");
+const pokemon = require("../clients/pokemonClient");
 const { Items } = require("../db/models");
 
-const pokemonClient = new pokemon_client();
+const pokemonClient = new pokemon();
 
 async function addTodoItem(input) {
   const inputString = input.trim();
