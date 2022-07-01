@@ -3,48 +3,48 @@ const { Items } = require("../db/models");
 
 const pokemonClient = new pokemon();
 
-async function addTodoItem(input) {
+async function createTodoItem(input) {
   const inputString = input.trim();
 
   // number
   if (/^[0-9]+$/.test(inputString)) {
-    handlePokemonItem(inputString);
+    addPokemonTodoItem(inputString);
   }
   // comma separated list of IDs
   else if (/^[0-9, ]+$/.test(inputString)) {
-    handlePokemonItems(inputString);
+    addPokemonTodoItems(inputString);
   }
   // normal todo
   else {
-    handleNormalItem(inputString);
+    addTextTodoItem(inputString);
   }
 }
 
-async function handlePokemonItem(inputString) {
+async function addPokemonTodoItem(input) {
   try {
-    const pokemon = await pokemonClient.getPokemon(inputString);
+    const pokemon = await pokemonClient.getPokemon(input);
     return await addPokemonItem(pokemon.name);
   } catch (error) {
-    return addItem(`Pokemon with ID ${inputString} was not found`);
+    return addItem(`Pokemon with ID ${input} was not found`);
   }
 }
 
-async function handlePokemonItems(inputString) {
+async function addPokemonTodoItems(input) {
   try {
     const pokemons = await pokemonClient.getAllPokemons(
-      inputString.split(",").map((e) => e.trim())
+      input.split(",").map((e) => e.trim())
     );
 
     pokemons.forEach(async (pokemon) => {
       return await addPokemonItem(pokemon.name);
     });
   } catch (error) {
-    return addItem(`Failed to fetch pokemon with this input ${inputString}`);
+    return addItem(`Failed to fetch pokemon with this input ${input}`);
   }
 }
 
-function handleNormalItem(inputString) {
-  return addItem(inputString);
+function addTextTodoItem(input) {
+  return addItem(input);
 }
 
 async function addItem(item) {
@@ -68,7 +68,6 @@ async function deleteTodoItem(input) {
 }
 
 async function updateTodoItem(input) {
-  console.log("input", input);
   await Items.update(
     { status: input.status },
     {
@@ -80,7 +79,7 @@ async function updateTodoItem(input) {
 }
 
 module.exports = {
-  addTodoItem,
+  createTodoItem,
   getTodoItems,
   deleteTodoItem,
   updateTodoItem,

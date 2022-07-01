@@ -17,10 +17,13 @@ export const ListItem = ({ itemsList, renderItems }) => {
   };
 
   const HandleItemUpdate = async (item) => {
-    item.status = !item.status;
-
     await updateItem(item);
     await renderItems();
+  };
+
+  const handleItemStatusUpdate = async (item) => {
+    item.status = !item.status;
+    await HandleItemUpdate(item);
   };
 
   return (
@@ -31,7 +34,7 @@ export const ListItem = ({ itemsList, renderItems }) => {
             key={index}
             item={item}
             handleItemDelete={() => handleItemDelete(item)}
-            HandleItemUpdate={() => HandleItemUpdate(item)}
+            HandleItemUpdate={() => handleItemStatusUpdate(item)}
           />
         );
       })}

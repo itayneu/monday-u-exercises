@@ -6,7 +6,7 @@ async function getItems(req, res) {
 }
 
 async function createItem(req, res) {
-  const data = await ItemManager.addTodoItem(req.body.item);
+  const data = await ItemManager.createTodoItem(req.body.item);
   res.status(200).json(data);
 }
 
