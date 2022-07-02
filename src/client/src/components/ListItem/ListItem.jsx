@@ -1,30 +1,48 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import { Item } from "../Item/Item";
 import { useItem } from "../../hooks/useItem";
+import { getItemsList } from "../../selectors/itemsEntitiesSelectors";
+import {
+  removeAction,
+  updateAction,
+  loadAction,
+} from "../../actions/itemsEntitiesActions";
 import "./listItem.css";
 
-export const ListItem = ({ itemsList, renderItems }) => {
-  const { deleteItem, updateItem } = useItem();
+const ListItem = ({ itemsList, removeAction, updateAction, loadAction }) => {
+  const { getItems, deleteItem, updateItem } = useItem();
 
   useEffect(() => {
-    renderItems();
-  }, [renderItems]);
+    loadItems();
+  }, []);
 
-  const handleItemDelete = async (item) => {
-    await deleteItem(item.itemName);
-    await renderItems();
-  };
+  const handleItemDelete = useCallback(
+    async (item) => {
+      await deleteItem(item.itemName);
+      removeAction(item);
+    },
+    [deleteItem, removeAction]
+  );
 
-  const HandleItemUpdate = async (item) => {
-    await updateItem(item);
-    await renderItems();
-  };
+  const HandleItemUpdate = useCallback(
+    async (item) => {
+      await updateItem(item);
+      updateAction(item);
+    },
+    [updateAction, updateItem]
+  );
 
   const handleItemStatusUpdate = async (item) => {
     item.status = !item.status;
     await HandleItemUpdate(item);
   };
+
+  const loadItems = useCallback(async () => {
+    loadAction(await getItems());
+  }, [getItems, loadAction]);
 
   return (
     <ul className="list">
@@ -41,6 +59,21 @@ export const ListItem = ({ itemsList, renderItems }) => {
     </ul>
   );
 };
+
+const mapStateToProps = (state, ownProps) => {
+  const itemsList = getItemsList(state);
+
+  return { itemsList };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return bindActionCreators(
+    { removeAction, updateAction, loadAction },
+    dispatch
+  );
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListItem);
 
 ListItem.propTypes = {
   itemsList: PropTypes.array,
