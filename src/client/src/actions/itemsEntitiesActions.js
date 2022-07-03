@@ -29,20 +29,20 @@ const load = (itemsList) => ({
 export const addItemAction = (item) => {
   return async (dispatch) => {
     const response = await createItem(item.itemName);
-    dispatch(add(item));
+    response !== "" && dispatch(add(response));
   };
 };
 
 export const removeItemAction = (item) => {
   return async (dispatch) => {
-    const response = await deleteItem(item.itemName);
+    await deleteItem(item.itemName);
     dispatch(remove(item));
   };
 };
 
 export const updateItemAction = (item) => {
   return async (dispatch) => {
-    const response = await updateItem(item);
+    await updateItem(item);
     dispatch(update(item));
   };
 };

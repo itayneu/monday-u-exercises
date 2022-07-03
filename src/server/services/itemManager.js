@@ -1,86 +1,81 @@
-const pokemon = require("../clients/pokemonClient");
 const { Items } = require("../db/models");
+const PokemonClient = require("../clients/pokemonClient");
 
-const pokemonClient = new pokemon();
-
-async function createTodoItem(input) {
-  const inputString = input.trim();
-
-  // number
-  if (/^[0-9]+$/.test(inputString)) {
-    addPokemonTodoItem(inputString);
+class ItemManager {
+  constructor() {
+    this.pokemonClient = new PokemonClient();
   }
-  // comma separated list of IDs
-  else if (/^[0-9, ]+$/.test(inputString)) {
-    addPokemonTodoItems(inputString);
-  }
-  // normal todo
-  else {
-    addTextTodoItem(inputString);
-  }
-}
 
-async function addPokemonTodoItem(input) {
-  try {
-    const pokemon = await pokemonClient.getPokemon(input);
-    return await addPokemonItem(pokemon.name);
-  } catch (error) {
-    return addItem(`Pokemon with ID ${input} was not found`);
-  }
-}
-
-async function addPokemonTodoItems(input) {
-  try {
-    const pokemons = await pokemonClient.getAllPokemons(
-      input.split(",").map((e) => e.trim())
-    );
-
-    pokemons.forEach(async (pokemon) => {
-      return await addPokemonItem(pokemon.name);
-    });
-  } catch (error) {
-    return addItem(`Failed to fetch pokemon with this input ${input}`);
-  }
-}
-
-function addTextTodoItem(input) {
-  return addItem(input);
-}
-
-async function addItem(item) {
-  return await Items.create({ itemName: item });
-}
-
-async function addPokemonItem(item) {
-  return await addItem(`Catch ${item}`);
-}
-
-function getTodoItems() {
-  return Items.findAll();
-}
-
-async function deleteTodoItem(input) {
-  await Items.destroy({
-    where: {
-      itemName: input,
-    },
-  });
-}
-
-async function updateTodoItem(input) {
-  await Items.update(
-    { status: input.status },
-    {
-      where: {
-        itemName: input.item,
-      },
+  createTodoItem = async (inputString) => {
+    // number
+    if (/^[0-9]+$/.test(inputString)) {
+      return await this.addPokemonTodoItem(inputString);
     }
-  );
+    // comma separated list of IDs
+    else if (/^[0-9, ]+$/.test(inputString)) {
+      return await this.addPokemonTodoItems(inputString);
+    }
+    // normal todo
+    else {
+      return await this.addItem(inputString);
+    }
+  };
+
+  addPokemonTodoItem = async (input) => {
+    try {
+      const pokemon = await this.pokemonClient.getPokemon(input);
+      return await this.addPokemonItem(pokemon.name);
+    } catch (error) {
+      return await this.addItem(`Pokemon with ID ${input} was not found`);
+    }
+  };
+
+  addPokemonTodoItems = async (input) => {
+    try {
+      const pokemons = await this.pokemonClient.getAllPokemons(
+        input.split(",").map((e) => e.trim())
+      );
+
+      pokemons.forEach(async (pokemon) => {
+        return await this.addPokemonItem(pokemon.name);
+      });
+    } catch (error) {
+      return await this.addItem(
+        `Failed to fetch pokemon with this input ${input}`
+      );
+    }
+  };
+
+  addItem = async (item) => {
+    return await Items.create({ itemName: item });
+  };
+
+  addPokemonItem = async (item) => {
+    return await this.addItem(`Catch ${item}`);
+  };
+
+  getTodoItems = async () => {
+    return await Items.findAll();
+  };
+
+  deleteTodoItem = async (input) => {
+    return await Items.destroy({
+      where: {
+        itemName: input,
+      },
+    });
+  };
+
+  updateTodoItem = async (input) => {
+    return await Items.update(
+      { status: input.status },
+      {
+        where: {
+          itemName: input.item,
+        },
+      }
+    );
+  };
 }
 
-module.exports = {
-  createTodoItem,
-  getTodoItems,
-  deleteTodoItem,
-  updateTodoItem,
-};
+module.exports = new ItemManager();

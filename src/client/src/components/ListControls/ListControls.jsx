@@ -5,13 +5,9 @@ import { TextFieldComponent } from "../TextField/TextField";
 import { ButtonComponent } from "../Button/Button";
 import { getItemsList } from "../../selectors/itemsEntitiesSelectors";
 import { addItemAction } from "../../actions/itemsEntitiesActions";
-import {
-  filterListAction,
-  setFilterAction,
-} from "../../actions/itemsViewActions";
 import "./listControls.css";
 
-const ListControls = ({ addItemAction, filterListAction, setFilterAction }) => {
+const ListControls = ({ addItemAction }) => {
   const [inputValue, setInputValue] = useState("");
 
   const onInputChange = useCallback(
@@ -46,10 +42,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return bindActionCreators(
-    { addItemAction, filterListAction, setFilterAction },
-    dispatch
-  );
+  return bindActionCreators({ addItemAction }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListControls);

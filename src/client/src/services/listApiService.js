@@ -26,8 +26,8 @@ export async function createItem(item) {
         },
       }
     );
-
-    toast(`${item} added successfully`);
+    response.data !== "" &&
+      toast(`${response.data.itemName} added successfully`);
 
     return response.data;
   } catch (error) {
