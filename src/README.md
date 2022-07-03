@@ -44,8 +44,8 @@ This will make your project:
 
 - [x] Use redux actions for communicating with the server (fetching items, adding a new item, etc.)
 - [x] Move the items from local component's state into the store
-- [ ] Handle failure of requests from the server
-- [ ] Handle loading
+- [x] Handle failure of requests from the server
+- [x] Handle loading
 - [x] Add search
 - [x] Add the ability to hide items that were marked as done or to show only them
 - [x] Add a logger middleware to your application

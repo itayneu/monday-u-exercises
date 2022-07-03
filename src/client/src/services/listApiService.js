@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const API_BASE = "http://localhost:3005";
 
@@ -9,7 +10,8 @@ export async function getItems() {
 
     return todoItems;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    toast.error("An unexpected error occurred. Please try again.");
   }
 }
 
@@ -25,9 +27,12 @@ export async function createItem(item) {
       }
     );
 
+    toast(`${item} added successfully`);
+
     return response.data;
-  } catch (errors) {
-    console.error(errors);
+  } catch (error) {
+    console.error(error);
+    toast.error("An unexpected error occurred. Please try again.");
   }
 }
 
@@ -40,9 +45,12 @@ export async function deleteItem(item) {
       data: JSON.stringify({ item }),
     });
 
+    toast(`${item} deleted successfully`);
+
     return response.data;
-  } catch (errors) {
-    console.error(errors);
+  } catch (error) {
+    console.error(error);
+    toast.error("An unexpected error occurred. Please try again.");
   }
 }
 
@@ -58,8 +66,11 @@ export async function updateItem(item) {
       }
     );
 
+    toast(`${item.itemName} updated successfully`);
+
     return response.data;
-  } catch (errors) {
-    console.error(errors);
+  } catch (error) {
+    console.error(error);
+    toast.error("An unexpected error occurred. Please try again.");
   }
 }

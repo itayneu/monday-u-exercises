@@ -1,8 +1,8 @@
 import React, { useEffect, useCallback, useState } from "react";
-
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Item } from "../Item/Item";
+import { LoaderComponent } from "../Loader/Loader";
 import { SearchComponent } from "../Search/Search";
 import { ButtonGroupComponent } from "../ButtonGroup/ButtonGroup";
 import { getItemsList } from "../../selectors/itemsEntitiesSelectors";
@@ -21,6 +21,7 @@ const ListItem = ({
 }) => {
   const [filterValue, setFilterValue] = useState("");
   const [searchInput, setSearchInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const filterOptions = [
     {
       value: "",
@@ -37,7 +38,9 @@ const ListItem = ({
   ];
 
   useEffect(() => {
+    setIsLoading(true);
     loadItems();
+    setIsLoading(false);
   }, []);
 
   const handleItemDelete = useCallback(
@@ -63,34 +66,47 @@ const ListItem = ({
     loadItemsListAction();
   }, [loadItemsListAction]);
 
-  const handleFilterChange = useCallback((filter) => {
-    setFilterValue(filter);
+  const handleFilterChange = useCallback((value) => {
+    setIsLoading(true);
+    setFilterValue(value);
+    setIsLoading(false);
   }, []);
 
   const onSearchChange = useCallback((value) => {
+    setIsLoading(true);
     setSearchInput(value);
+    setIsLoading(false);
   }, []);
 
   return (
     <div>
-      <SearchComponent placeholder={"Search Items"} onChange={onSearchChange} />
+      <SearchComponent
+        placeholder={"Search Items"}
+        loading={isLoading}
+        onChange={onSearchChange}
+      />
       <ul className="list">
-        {itemsList
-          .filter(
-            (element) =>
-              (element.itemName.includes(searchInput) || searchInput === "") &&
-              (element.status === filterValue || filterValue === "")
-          )
-          .map((item, index) => {
-            return (
-              <Item
-                key={index}
-                item={item}
-                handleItemDelete={() => handleItemDelete(item)}
-                HandleItemUpdate={() => handleItemStatusUpdate(item)}
-              />
-            );
-          })}
+        {!isLoading ? (
+          itemsList
+            .filter(
+              (element) =>
+                (element.itemName.includes(searchInput) ||
+                  searchInput === "") &&
+                (element.status === filterValue || filterValue === "")
+            )
+            .map((item, index) => {
+              return (
+                <Item
+                  key={index}
+                  item={item}
+                  handleItemDelete={() => handleItemDelete(item)}
+                  HandleItemUpdate={() => handleItemStatusUpdate(item)}
+                />
+              );
+            })
+        ) : (
+          <LoaderComponent />
+        )}
       </ul>
       <ButtonGroupComponent
         onSelect={(value) => handleFilterChange(value)}
