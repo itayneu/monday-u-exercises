@@ -1,19 +1,40 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
+
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import PropTypes from "prop-types";
 import { Item } from "../Item/Item";
-import { useItem } from "../../hooks/useItem";
+import { SearchComponent } from "../Search/Search";
+import { ButtonGroupComponent } from "../ButtonGroup/ButtonGroup";
 import { getItemsList } from "../../selectors/itemsEntitiesSelectors";
 import {
-  removeAction,
-  updateAction,
-  loadAction,
+  removeItemAction,
+  updateItemAction,
+  loadItemsListAction,
 } from "../../actions/itemsEntitiesActions";
 import "./listItem.css";
 
-const ListItem = ({ itemsList, removeAction, updateAction, loadAction }) => {
-  const { getItems, deleteItem, updateItem } = useItem();
+const ListItem = ({
+  itemsList,
+  removeItemAction,
+  updateItemAction,
+  loadItemsListAction,
+}) => {
+  const [filterValue, setFilterValue] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const filterOptions = [
+    {
+      value: "",
+      text: "All",
+    },
+    {
+      value: false,
+      text: "Active",
+    },
+    {
+      value: true,
+      text: "Completed",
+    },
+  ];
 
   useEffect(() => {
     loadItems();
@@ -21,18 +42,16 @@ const ListItem = ({ itemsList, removeAction, updateAction, loadAction }) => {
 
   const handleItemDelete = useCallback(
     async (item) => {
-      await deleteItem(item.itemName);
-      removeAction(item);
+      removeItemAction(item);
     },
-    [deleteItem, removeAction]
+    [removeItemAction]
   );
 
   const HandleItemUpdate = useCallback(
     async (item) => {
-      await updateItem(item);
-      updateAction(item);
+      updateItemAction(item);
     },
-    [updateAction, updateItem]
+    [updateItemAction]
   );
 
   const handleItemStatusUpdate = async (item) => {
@@ -41,22 +60,43 @@ const ListItem = ({ itemsList, removeAction, updateAction, loadAction }) => {
   };
 
   const loadItems = useCallback(async () => {
-    loadAction(await getItems());
-  }, [getItems, loadAction]);
+    loadItemsListAction();
+  }, [loadItemsListAction]);
+
+  const handleFilterChange = useCallback((filter) => {
+    setFilterValue(filter);
+  }, []);
+
+  const onSearchChange = useCallback((value) => {
+    setSearchInput(value);
+  }, []);
 
   return (
-    <ul className="list">
-      {itemsList.map((item, index) => {
-        return (
-          <Item
-            key={index}
-            item={item}
-            handleItemDelete={() => handleItemDelete(item)}
-            HandleItemUpdate={() => handleItemStatusUpdate(item)}
-          />
-        );
-      })}
-    </ul>
+    <div>
+      <ButtonGroupComponent
+        onSelect={(value) => handleFilterChange(value)}
+        options={filterOptions}
+      />
+      <SearchComponent placeholder={"Search Items"} onChange={onSearchChange} />
+      <ul className="list">
+        {itemsList
+          .filter(
+            (element) =>
+              (element.itemName.includes(searchInput) || searchInput === "") &&
+              (element.status === filterValue || filterValue === "")
+          )
+          .map((item, index) => {
+            return (
+              <Item
+                key={index}
+                item={item}
+                handleItemDelete={() => handleItemDelete(item)}
+                HandleItemUpdate={() => handleItemStatusUpdate(item)}
+              />
+            );
+          })}
+      </ul>
+    </div>
   );
 };
 
@@ -68,19 +108,13 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return bindActionCreators(
-    { removeAction, updateAction, loadAction },
+    {
+      removeItemAction,
+      updateItemAction,
+      loadItemsListAction,
+    },
     dispatch
   );
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListItem);
-
-ListItem.propTypes = {
-  itemsList: PropTypes.array,
-  renderItems: PropTypes.func,
-};
-
-ListItem.defaultProps = {
-  itemsList: [],
-  renderItems: undefined,
-};

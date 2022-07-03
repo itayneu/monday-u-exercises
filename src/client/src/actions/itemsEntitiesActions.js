@@ -1,4 +1,10 @@
 import actionsTypes from "./constants";
+import {
+  getItems,
+  createItem,
+  deleteItem,
+  updateItem,
+} from "../services/listApiService";
 
 const add = (item) => ({
   type: actionsTypes.ADD,
@@ -20,26 +26,30 @@ const load = (itemsList) => ({
   itemsList,
 });
 
-export const addAction = (item) => {
-  return (dispatch) => {
+export const addItemAction = (item) => {
+  return async (dispatch) => {
+    const response = await createItem(item.itemName);
     dispatch(add(item));
   };
 };
 
-export const removeAction = (item) => {
-  return (dispatch) => {
+export const removeItemAction = (item) => {
+  return async (dispatch) => {
+    const response = await deleteItem(item.itemName);
     dispatch(remove(item));
   };
 };
 
-export const updateAction = (item) => {
-  return (dispatch) => {
+export const updateItemAction = (item) => {
+  return async (dispatch) => {
+    const response = await updateItem(item);
     dispatch(update(item));
   };
 };
 
-export const loadAction = (itemsList) => {
-  return (dispatch) => {
-    dispatch(load(itemsList));
+export const loadItemsListAction = () => {
+  return async (dispatch) => {
+    const response = await getItems();
+    dispatch(load(response));
   };
 };

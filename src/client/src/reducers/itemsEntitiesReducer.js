@@ -1,22 +1,7 @@
 import actionTypes from "../actions/constants";
 
 const initialState = {
-  itemsList: [
-    {
-      id: 210,
-      itemName: "a",
-      status: false,
-      createdAt: "2022-07-02T13:28:45.000Z",
-      updatedAt: "2022-07-02T13:28:45.000Z",
-    },
-    {
-      id: 211,
-      itemName: "b",
-      status: false,
-      createdAt: "2022-07-02T13:46:07.000Z",
-      updatedAt: "2022-07-02T13:46:07.000Z",
-    },
-  ],
+  itemsList: [],
 };
 
 const itemsEntitiesReducer = (state = initialState, action) => {
