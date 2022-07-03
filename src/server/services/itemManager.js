@@ -36,9 +36,9 @@ class ItemManager {
         input.split(",").map((e) => e.trim())
       );
 
-      pokemons.forEach(async (pokemon) => {
-        return await this.addPokemonItem(pokemon.name);
-      });
+      return await Promise.all(
+        pokemons.map((pokemon) => this.addPokemonItem(pokemon.name))
+      );
     } catch (error) {
       return await this.addItem(
         `Failed to fetch pokemon with this input ${input}`

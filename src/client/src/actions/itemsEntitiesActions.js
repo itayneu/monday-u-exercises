@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import actionsTypes from "./constants";
 import {
   getItems,
@@ -29,7 +30,15 @@ const load = (itemsList) => ({
 export const addItemAction = (item) => {
   return async (dispatch) => {
     const response = await createItem(item.itemName);
-    response !== "" && dispatch(add(response));
+    if (Array.isArray(response)) {
+      response.forEach((element) => {
+        dispatch(add(element));
+        toast(`"${element.itemName}" added successfully`);
+      });
+    } else {
+      dispatch(add(response));
+      toast(`"${response.itemName}" added successfully`);
+    }
   };
 };
 
@@ -37,6 +46,7 @@ export const removeItemAction = (item) => {
   return async (dispatch) => {
     await deleteItem(item.itemName);
     dispatch(remove(item));
+    toast(`"${item.itemName}" deleted successfully`);
   };
 };
 
@@ -44,6 +54,7 @@ export const updateItemAction = (item) => {
   return async (dispatch) => {
     await updateItem(item);
     dispatch(update(item));
+    toast(`"${item.itemName}" updated successfully`);
   };
 };
 

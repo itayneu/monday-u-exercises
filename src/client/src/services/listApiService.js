@@ -11,7 +11,8 @@ export async function getItems() {
     return todoItems;
   } catch (error) {
     console.error(error);
-    toast.error("An unexpected error occurred. Please try again.");
+    toast.error("An unexpected error occurred");
+    throw error;
   }
 }
 
@@ -26,13 +27,12 @@ export async function createItem(item) {
         },
       }
     );
-    response.data !== "" &&
-      toast(`${response.data.itemName} added successfully`);
 
     return response.data;
   } catch (error) {
     console.error(error);
-    toast.error("An unexpected error occurred. Please try again.");
+    toast.error("An unexpected error occurred");
+    throw error;
   }
 }
 
@@ -45,12 +45,11 @@ export async function deleteItem(item) {
       data: JSON.stringify({ item }),
     });
 
-    toast(`${item} deleted successfully`);
-
     return response.data;
   } catch (error) {
     console.error(error);
-    toast.error("An unexpected error occurred. Please try again.");
+    toast.error("An unexpected error occurred");
+    throw error;
   }
 }
 
@@ -66,11 +65,10 @@ export async function updateItem(item) {
       }
     );
 
-    toast(`${item.itemName} updated successfully`);
-
     return response.data;
   } catch (error) {
     console.error(error);
-    toast.error("An unexpected error occurred. Please try again.");
+    toast.error("An unexpected error occurred");
+    throw error;
   }
 }
