@@ -1,10 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Search } from "monday-ui-react-core";
-// import "./button.css";
+import "./search.css";
 
 export const SearchComponent = ({ placeholder, size, onChange }) => {
-  return <Search placeholder={placeholder} size={size} onChange={onChange} />;
+  return (
+    <div className="list-item-search">
+      <Search placeholder={placeholder} size={size} onChange={onChange} />
+    </div>
+  );
 };
 
 SearchComponent.propTypes = {

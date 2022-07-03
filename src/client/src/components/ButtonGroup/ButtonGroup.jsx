@@ -1,16 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { ButtonGroup } from "monday-ui-react-core";
+import "./buttonGroup.css";
 
 export const ButtonGroupComponent = ({ value, onSelect, options, size }) => {
   return (
-    <ButtonGroup
-      groupAriaLabel="button group aria label"
-      value={value}
-      onSelect={onSelect}
-      options={options}
-      size={size}
-    />
+    <div className="list-item-filter">
+      <ButtonGroup
+        groupAriaLabel="button group aria label"
+        value={value}
+        onSelect={onSelect}
+        options={options}
+        size={size}
+      />
+    </div>
   );
 };
 

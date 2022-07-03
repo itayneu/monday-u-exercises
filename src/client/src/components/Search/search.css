@@ -1,0 +1,8 @@
+.list-item-search {
+  padding: 8px 32px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+}

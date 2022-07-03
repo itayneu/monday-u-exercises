@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Input } from "../Input/Input";
-import { Button } from "../Button/Button";
+import { TextFieldComponent } from "../TextField/TextField";
+import { ButtonComponent } from "../Button/Button";
 import { getItemsList } from "../../selectors/itemsEntitiesSelectors";
 import { addItemAction } from "../../actions/itemsEntitiesActions";
 import {
@@ -16,7 +16,7 @@ const ListControls = ({ addItemAction, filterListAction, setFilterAction }) => {
 
   const onInputChange = useCallback(
     (e) => {
-      setInputValue(e.target.value);
+      setInputValue(e);
     },
     [setInputValue]
   );
@@ -29,12 +29,12 @@ const ListControls = ({ addItemAction, filterListAction, setFilterAction }) => {
 
   return (
     <div className="list-controls">
-      <Input
+      <TextFieldComponent
         placeholder={"Add your new todo"}
         value={inputValue}
         onChange={onInputChange}
       />
-      <Button label={"+"} onClick={handleItem}></Button>
+      <ButtonComponent label={"+"} onClick={handleItem}></ButtonComponent>
     </div>
   );
 };

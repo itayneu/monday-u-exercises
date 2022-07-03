@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Button } from "monday-ui-react-core";
 import "./button.css";
 
-export const Button = ({ label, onClick }) => {
+export const ButtonComponent = ({ label, onClick }) => {
   return (
-    <button type="button" className="list-item-submit" onClick={onClick}>
+    <Button className="list-item-submit" onClick={onClick} marginLeft={true}>
       {label}
-    </button>
+    </Button>
   );
 };
 

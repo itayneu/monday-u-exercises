@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Checkbox } from "../Checkbox/Checkbox";
+import { CheckboxComponent } from "../Checkbox/Checkbox";
 import { Label } from "../Label/Label";
 import { Image } from "../Image/Image";
 import delete_icon from "../../images/delete_icon.svg";
@@ -9,7 +9,7 @@ import "./item.css";
 export const Item = ({ item, handleItemDelete, HandleItemUpdate }) => {
   return (
     <li className="list-item">
-      <Checkbox isChecked={item.status} onChange={HandleItemUpdate} />
+      <CheckboxComponent isChecked={item.status} onChange={HandleItemUpdate} />
       <Label
         label={
           item.status === true

@@ -1,15 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Checkbox } from "monday-ui-react-core";
 import "./checkbox.css";
 
-export const Checkbox = ({ isChecked, onChange }) => {
+export const CheckboxComponent = ({ isChecked, onChange }) => {
   return (
-    <input
-      type="checkbox"
+    <Checkbox
       className="list-item-checkbox"
       checked={isChecked}
       onChange={onChange}
-    ></input>
+    ></Checkbox>
   );
 };
 

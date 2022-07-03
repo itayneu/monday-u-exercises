@@ -73,10 +73,6 @@ const ListItem = ({
 
   return (
     <div>
-      <ButtonGroupComponent
-        onSelect={(value) => handleFilterChange(value)}
-        options={filterOptions}
-      />
       <SearchComponent placeholder={"Search Items"} onChange={onSearchChange} />
       <ul className="list">
         {itemsList
@@ -96,6 +92,10 @@ const ListItem = ({
             );
           })}
       </ul>
+      <ButtonGroupComponent
+        onSelect={(value) => handleFilterChange(value)}
+        options={filterOptions}
+      />
     </div>
   );
 };
