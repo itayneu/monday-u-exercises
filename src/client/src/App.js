@@ -1,5 +1,4 @@
-import ListControls from "./components/ListControls/ListControls";
-import ListItem from "./components/ListItem/ListItem";
+import TodoAppContainer from "./components/TodoAppContainer/TodoAppContainer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
@@ -10,8 +9,7 @@ function App() {
       <div className="list-container">
         <h1 className="app-name">Shuki</h1>
         <ToastContainer />
-        <ListControls />
-        <ListItem />
+        <TodoAppContainer />
       </div>
     </div>
   );
