@@ -3,13 +3,11 @@
  */
 
 import React from "react";
+import { Provider } from "react-redux";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import ListContainer from "../ListContainer";
-import { Provider } from "react-redux";
 import { store } from "../../../store";
-import * as requests from "../../../services/listApiService";
-import { loadItemsListAction } from "../../../actions/itemsEntitiesActions";
 
 const items = [
   {
@@ -44,30 +42,4 @@ describe("ListContainer", () => {
       screen.getByText("Do the dishes (Done: 8.7.2022, 20:18:43)")
     ).toBeInTheDocument();
   });
-
-  // test("get", async () => {
-  //   const mockRequest = jest
-  //     .spyOn(requests, "getItems")
-  //     .mockImplementation(() => {
-  //       return [
-  //         {
-  //           id: 511,
-  //           itemName: "yo",
-  //           status: true,
-  //           createdAt: "2022-07-08T17:18:39.000Z",
-  //           updatedAt: "2022-07-08T17:18:43.000Z",
-  //         },
-  //       ];
-  //     });
-
-  //   await loadItemsListAction();
-
-  //   expect(mockRequest).toBeCalledWith({
-  //     id: 511,
-  //     itemName: "yo",
-  //     status: true,
-  //     createdAt: "2022-07-08T17:18:39.000Z",
-  //     updatedAt: "2022-07-08T17:18:43.000Z",
-  //   });
-  // });
 });
