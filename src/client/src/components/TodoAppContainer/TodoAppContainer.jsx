@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import NavBarComponent from "../NavBar/NavBarComponent";
 import { ROUTES_MAPPING } from "../NavBar/consts";
-import AboutComponent from "../About/AboutComponent";
+import About from "../About/About";
 import ListControls from "../ListControls/ListControls";
 import ListItem from "../ListItem/ListItem";
 
@@ -19,7 +19,7 @@ function TodoAppContainer() {
             </div>
           }
         />
-        <Route path={ROUTES_MAPPING.ABOUT} element={<AboutComponent />} />
+        <Route path={ROUTES_MAPPING.ABOUT} element={<About />} />
         <Route
           path="*"
           element={
