@@ -67,7 +67,7 @@ This will make your project:
 
   you can use this link for some help https://redux.js.org/usage/writing-tests#reducers
 
-- [ ] Snapshot tests - 2 components
+- [x] Snapshot tests - 2 components
 
       ListItemComponent
       AboutComponent
@@ -80,7 +80,7 @@ This will make your project:
   client/src/components/about-component/__tests__/AboutComponent.test.jsx
   ```
 
-- [ ] Integration tests - send 2 items to the
+- [x] Integration tests - send 2 items to the
 
       ListContainer
 
