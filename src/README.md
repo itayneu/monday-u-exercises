@@ -58,7 +58,7 @@ This will make your project:
 
 ### The requirements:
 
-- [ ] Unit tests - test `itemsEntitiesReducer` - add 3 unit tests
+- [x] Unit tests - test `itemsEntitiesReducer` - add 3 unit tests
       you should create a new `__tests__` folder under the reducers folder and a new test file for it
 
   ```
