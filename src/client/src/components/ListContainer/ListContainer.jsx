@@ -1,16 +1,8 @@
 import React, { useEffect, useCallback, useState } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { ListItem } from "../ListItem/ListItem";
 import { LoaderComponent } from "../Loader/Loader";
 import { SearchComponent } from "../Search/Search";
 import { ButtonGroupComponent } from "../ButtonGroup/ButtonGroup";
-import { getItemsList } from "../../selectors/itemsEntitiesSelectors";
-import {
-  removeItemAction,
-  updateItemAction,
-  loadItemsListAction,
-} from "../../actions/itemsEntitiesActions";
 import "./listContainer.css";
 
 const ListContainer = ({
@@ -50,7 +42,7 @@ const ListContainer = ({
     [removeItemAction]
   );
 
-  const HandleItemUpdate = useCallback(
+  const handleItemUpdate = useCallback(
     async (item) => {
       updateItemAction(item);
     },
@@ -59,7 +51,7 @@ const ListContainer = ({
 
   const handleItemStatusUpdate = async (item) => {
     item.status = !item.status;
-    await HandleItemUpdate(item);
+    await handleItemUpdate(item);
   };
 
   const loadItems = useCallback(async () => {
@@ -100,7 +92,7 @@ const ListContainer = ({
                   key={index}
                   item={item}
                   handleItemDelete={() => handleItemDelete(item)}
-                  HandleItemUpdate={() => handleItemStatusUpdate(item)}
+                  handleItemUpdate={() => handleItemStatusUpdate(item)}
                 />
               );
             })
@@ -116,21 +108,4 @@ const ListContainer = ({
   );
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const itemsList = getItemsList(state);
-
-  return { itemsList };
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return bindActionCreators(
-    {
-      removeItemAction,
-      updateItemAction,
-      loadItemsListAction,
-    },
-    dispatch
-  );
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ListContainer);
+export default ListContainer;

@@ -2,8 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import NavBarComponent from "../NavBar/NavBarComponent";
 import { ROUTES_MAPPING } from "../NavBar/consts";
 import About from "../About/About";
-import ListControls from "../ListControls/ListControls";
-import ListContainer from "../ListContainer/ListContainer";
+import ListControlsConnector from "../ListControls/ListControlsConnector";
+import ListContainerConnector from "../ListContainer/ListContainerConnector";
 
 function TodoAppContainer() {
   return (
@@ -14,8 +14,8 @@ function TodoAppContainer() {
           path={ROUTES_MAPPING.TODO_LIST}
           element={
             <div>
-              <ListControls />
-              <ListContainer />
+              <ListControlsConnector />
+              <ListContainerConnector />
             </div>
           }
         />

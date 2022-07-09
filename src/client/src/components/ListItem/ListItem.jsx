@@ -6,10 +6,10 @@ import { Image } from "../Image/Image";
 import delete_icon from "../../images/delete_icon.svg";
 import "./listItem.css";
 
-export const ListItem = ({ item, handleItemDelete, HandleItemUpdate }) => {
+export const ListItem = ({ item, handleItemDelete, handleItemUpdate }) => {
   return (
     <li className="list-item">
-      <CheckboxComponent isChecked={item.status} onChange={HandleItemUpdate} />
+      <CheckboxComponent isChecked={item.status} onChange={handleItemUpdate} />
       <Label
         label={
           item.status === true
