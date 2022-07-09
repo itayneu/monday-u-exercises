@@ -3,7 +3,7 @@ import NavBarComponent from "../NavBar/NavBarComponent";
 import { ROUTES_MAPPING } from "../NavBar/consts";
 import About from "../About/About";
 import ListControls from "../ListControls/ListControls";
-import ListItem from "../ListItem/ListItem";
+import ListContainer from "../ListContainer/ListContainer";
 
 function TodoAppContainer() {
   return (
@@ -15,7 +15,7 @@ function TodoAppContainer() {
           element={
             <div>
               <ListControls />
-              <ListItem />
+              <ListContainer />
             </div>
           }
         />

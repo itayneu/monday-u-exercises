@@ -1,6 +1,15 @@
-.list {
-  list-style-type: none;
-  padding: 0px 30px;
-  height: 310px;
-  overflow-y: scroll;
+.list-item {
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.list-item:hover {
+  color: blueviolet;
+  transition: color 0.2s ease-in-out;
+}
+
+.list-item:not(:last-of-type) {
+  border-bottom: 1px #bbb5b5 solid;
 }
