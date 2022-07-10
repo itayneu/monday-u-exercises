@@ -1,0 +1,6 @@
+.tabsList {
+}
+
+.tabsList > ul {
+  height: -1px !important;
+}
